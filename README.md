@@ -16,7 +16,7 @@ It tracks the gold price daily and uses the Vercel AI SDK to connect with Gemini
 ### Getting Started:
 
 1. `git clone` this repo.
-2. Setup your `.env` with your API keys (Gemini, Twilio, Cloudinary).
+2. Setup your `.env` with your API keys (Gemini, Sarvam, Twilio, Cloudinary).
 3. `npm install` and `npx tsx src/index.ts`.
 
 ---

@@ -1,6 +1,6 @@
 # Gold-Agent 🤖📈
 
-I automated myself out of my job as the family’s 24/7 Gold Price Help Desk. Now, an AI agent only bugs my mom when the price drops, saving her eyes—and saving me from explaining why it went up by 500 rupees.
+I automated myself out of my job as the family’s 24/7 Gold Price Help Desk. Now, an AI agent only bugs my mom when the price drops, saving her eyes and saving me from explaining why it went up by 500 rupees.
 
 ### What it does:
 

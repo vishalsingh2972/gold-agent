@@ -64,7 +64,7 @@ async function runGoldAgent() {
 runGoldAgent();
 //cron.schedule('0 9 * * *', () => { runGoldAgent(); });
 
-//test cron 20s timer
+//test cron
 cron.schedule('*/20 * * * * *', () => { 
   console.log("Cron triggered! Running Gold Agent...");
   runGoldAgent(); 

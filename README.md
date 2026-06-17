@@ -23,4 +23,4 @@ It tracks the gold price daily and uses the Vercel AI SDK to connect with Gemini
 
 *If this project helped you learn how to build real-world AI Agents, please **give this repo a ⭐**!*
 
-*And if your mom has started asking you for the daily gold price, do yourself a favor: clone this, deploy it, and let the AI handle the morning updates. It’s the perfect way to make sure she stays informed while you officially retire from your role as the family's 24/7 financial advisor. You’ll both thank me later! TOODLES*
+*And if your mom has started asking you for the daily gold price, do yourself a favor: clone this, deploy it, and let the AI handle the morning updates. It’s the perfect way to make sure she stays informed while you officially retire from your role as the family's 24/7 financial advisor. You’ll both thank me later!*

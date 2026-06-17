@@ -62,6 +62,12 @@ async function runGoldAgent() {
 }
 
 runGoldAgent();
-cron.schedule('0 9 * * *', () => { runGoldAgent(); });
+//cron.schedule('0 9 * * *', () => { runGoldAgent(); });
+
+//test cron 20s timer
+cron.schedule('*/20 * * * * *', () => { 
+  console.log("Cron triggered! Running Gold Agent...");
+  runGoldAgent(); 
+});
 
 console.log("Gold Agent initialized. Watching gold prices...");

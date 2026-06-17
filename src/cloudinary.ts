@@ -9,7 +9,11 @@ cloudinary.config({
 
 export async function uploadToCloudinary(filePath: string) {
   const result = await cloudinary.uploader.upload(filePath, {
-    resource_type: "raw",
+    resource_type: "video", 
+    format: "ogg",
+    transformation: [
+      { audio_codec: "opus" }
+    ]
   });
   return result.secure_url;
 }

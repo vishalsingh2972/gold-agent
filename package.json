@@ -1,0 +1,18 @@
+{
+  "scripts": {
+    "dev": "tsx src/index.ts"
+  },
+  "dependencies": {
+    "@ai-sdk/google": "^3.0.83",
+    "ai": "^6.0.207",
+    "axios": "^1.18.0",
+    "cheerio": "^1.2.0",
+    "dotenv": "^17.4.2",
+    "node-cron": "^4.3.0",
+    "sarvamai": "^1.1.7"
+  },
+  "devDependencies": {
+    "@types/node": "^25.9.3",
+    "tsx": "^4.22.4"
+  }
+}

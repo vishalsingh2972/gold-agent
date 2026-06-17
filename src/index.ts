@@ -1,25 +1,81 @@
+import * as fs from "fs";
 import { fetchGoldPrice } from './fetcher';
 import { getGoldAdvice } from './analyzer';
 import { generateSpeech } from './tts';
+import cron from 'node-cron';
+import { sendWhatsAppMessage } from './twilio';
+import { uploadToCloudinary } from './cloudinary';
 
-async function run() {
-  console.log("Starting Agent Pipeline...");
-  
-  const price = await fetchGoldPrice();
-  
-  if (price) {
-    console.log(`Analyzing price: ₹${price}/10g`);
-    const advice = await getGoldAdvice(price);
-    
-    console.log("AI Advice:", advice);
-    
-    console.log("Generating audio...");
-    await generateSpeech(advice);
-    
-    console.log("Pipeline complete! Check mummy_alert.wav");
+const HISTORY_FILE = "history.json";
+
+function updateHistory(price: number) {
+  let history: { date: string, price: number }[] = [];
+
+  if (fs.existsSync(HISTORY_FILE)) {
+    const fileContent = fs.readFileSync(HISTORY_FILE, "utf-8").trim();
+
+    if (fileContent.length > 0) {
+      try {
+        history = JSON.parse(fileContent);
+      } catch (e) {
+        console.error("Error parsing history.json, resetting to empty array.");
+        history = [];
+      }
+    }
+  }
+
+  const today = new Date().toISOString().split('T')[0];
+  if (history.length > 0 && history[history.length - 1].date === today) {
+    history[history.length - 1].price = price;
   } else {
-    console.error("Failed to fetch gold price.");
+    history.push({ date: today, price });
+  }
+
+  if (history.length > 20) history.shift();
+
+  fs.writeFileSync(HISTORY_FILE, JSON.stringify(history, null, 2));
+  return history;
+}
+
+async function runGoldAgent() {
+  console.log(`[${new Date().toISOString()}] Starting Gold Agent...`);
+  const currentPrice = await fetchGoldPrice();
+  if (!currentPrice) return;
+
+  const history = updateHistory(currentPrice);
+
+  if (history.length >= 5) {
+    const avgPrice = history.reduce((sum, entry) => sum + entry.price, 0) / history.length;
+
+    if (currentPrice < avgPrice) {
+      const advice = await getGoldAdvice(currentPrice);
+
+      await generateSpeech(advice);
+
+      try {
+        const audioUrl = await uploadToCloudinary('mummy_alert.ogg');
+        console.log("Audio uploaded successfully to:", audioUrl);
+
+        await sendWhatsAppMessage(advice);
+
+        await sendWhatsAppMessage("", audioUrl);
+        console.log("Audio sent to WhatsApp successfully!");
+
+      } catch (uploadError) {
+        console.error("Cloudinary/Twilio Pipeline Failed:", uploadError);
+      }
+    } else {
+      console.log(`Price stable/high (₹${currentPrice}). No alert needed.`);
+    }
+  } else {
+    console.log(`Not enough data to analyze yet (${history.length}/5 days).`);
   }
 }
 
-run();
+runGoldAgent();
+
+cron.schedule('0 9 * * *', () => {
+  runGoldAgent();
+});
+
+console.log("Gold Agent initialized. Watching gold prices...");

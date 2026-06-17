@@ -7,11 +7,15 @@
     "ai": "^6.0.207",
     "axios": "^1.18.0",
     "cheerio": "^1.2.0",
+    "cloudinary": "^2.10.0",
     "dotenv": "^17.4.2",
+    "fluent-ffmpeg": "^2.1.3",
     "node-cron": "^4.3.0",
-    "sarvamai": "^1.1.7"
+    "sarvamai": "^1.1.7",
+    "twilio": "^6.0.2"
   },
   "devDependencies": {
+    "@types/fluent-ffmpeg": "^2.1.28",
     "@types/node": "^25.9.3",
     "tsx": "^4.22.4"
   }
